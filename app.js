@@ -2,6 +2,8 @@
 // app.js - Main Server File
 // =======================
 
+require("dotenv").config();
+
 const express = require("express");
 const path = require("path");
 const session = require("express-session");
@@ -20,7 +22,6 @@ const authRouterFactory = require("./routes/auth");
 const hdRouterFactory = require("./routes/hd");
 
 // HD TASKS
-require('dotenv').config();
 const aiRouterFactory = require('./routes/ai');
 
 // The auth module exports helper middleware functions to be used in routes.
