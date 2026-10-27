@@ -1,0 +1,126 @@
+<div class="page">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">Task 3: Recipe Management</h2>
+    <a class="btn btn-primary" routerLink="/recipes/add">Add New Recipe</a>
+  </div>
+
+  <!-- Toolbar: Search / Filters / Sort -->
+  <div class="card p-3 mb-3 shadow-sm">
+    <div class="row g-2 align-items-end">
+      <!-- Search -->
+      <div class="col-md-4">
+        <label class="form-label">Search</label>
+        <input class="form-control"
+               [value]="q()"
+               (input)="q.set($any($event.target).value)"
+               placeholder="title, chef, cuisine" />
+      </div>
+
+      <!-- Cuisine filter -->
+      <div class="col-md-3">
+        <label class="form-label">Cuisine</label>
+        <select class="form-select"
+                [value]="filterCuisine()"
+                (change)="filterCuisine.set($any($event.target).value)">
+          <option value="">All</option>
+          <option *ngFor="let c of cuisines()" [value]="c">{{ c }}</option>
+        </select>
+      </div>
+
+      <!-- Difficulty filter -->
+      <div class="col-md-3">
+        <label class="form-label">Difficulty</label>
+        <select class="form-select"
+                [value]="filterDifficulty()"
+                (change)="filterDifficulty.set($any($event.target).value)">
+          <option value="">All</option>
+          <option *ngFor="let d of difficulties()" [value]="d">{{ d }}</option>
+        </select>
+      </div>
+
+      <!-- Sort -->
+      <div class="col-md-2">
+        <label class="form-label d-block">Sort</label>
+        <select class="form-select"
+                [value]="sortKey()"
+                (change)="toggleSort($any($event.target).value)">
+          <option value="title">Title</option>
+          <option value="cuisine">Cuisine</option>
+          <option value="difficulty">Difficulty</option>
+          <option value="prep">Prep time</option>
+        </select>
+      </div>
+
+      <div class="col-12 mt-2 d-flex gap-2">
+        <span class="badge text-bg-secondary">Total: {{ recipes().length }}</span>
+        <span class="badge text-bg-primary">Shown: {{ filteredRecipes().length }}</span>
+        <button class="btn btn-outline-secondary ms-auto" (click)="clearFilters()">Clear</button>
+      </div>
+    </div>
+  </div>
+
+  <p class="text-muted">All Recipes</p>
+
+  <div *ngIf="error()" class="alert alert-danger">{{ error() }}</div>
+  <div *ngIf="loading()" class="text-muted">Loading…</div>
+
+  <div class="row g-3" *ngIf="!loading() && filteredRecipes().length">
+    <div class="col-md-4" *ngFor="let r of filteredRecipes(); trackBy: trackRecipe">
+      <div class="card h-100 shadow-sm">
+        <div class="card-header fw-semibold">
+          {{ r.title }}
+          <small class="text-muted d-block">by {{ r.chef }}</small>
+        </div>
+
+        <div class="card-body">
+          <p class="mb-1"><strong>Cuisine:</strong> {{ r.cuisineType }}</p>
+          <p class="mb-1"><strong>Meal Type:</strong> {{ r.mealType }}</p>
+          <p class="mb-1"><strong>Prep Time:</strong> {{ r.prepTime }} mins</p>
+          <p class="mb-1"><strong>Difficulty:</strong> {{ r.difficulty }}</p>
+          <p class="mb-1"><strong>Servings:</strong> {{ r.servings }}</p>
+          <p class="mb-0"><strong>Ingredients:</strong> {{ r.ingredients.length }} items</p>
+        </div>
+
+        <div class="card-footer bg-white border-0 pt-0">
+          <div class="d-flex gap-2">
+            <a class="btn btn-info flex-fill" [routerLink]="['/recipes','view', r.recipeId]">View</a>
+            <a class="btn btn-warning flex-fill" [routerLink]="['/recipes','edit', r.recipeId]">Edit</a>
+            <button class="btn btn-danger flex-fill" (click)="askDelete(r)">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!loading() && !filteredRecipes().length" class="alert alert-secondary">
+    No recipes match your filters. Try clearing the search or filters.
+  </div>
+
+  <!-- Delete confirm modal -->
+  <div
+    class="modal fade show"
+    *ngIf="confirm() as c"
+    style="display:block; background: rgba(0,0,0,.45);"
+    (click)="cancelDelete()"
+    role="dialog"
+    aria-modal="true"
+  >
+    <div class="modal-dialog" (click)="$event.stopPropagation()">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Delete recipe</h5>
+          <button type="button" class="btn-close" aria-label="Close" (click)="cancelDelete()"></button>
+        </div>
+        <div class="modal-body">
+          Delete “<strong>{{ c.title }}</strong>” permanently?
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline-secondary" (click)="cancelDelete()">Cancel</button>
+          <button class="btn btn-danger" (click)="performDelete()">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

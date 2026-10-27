@@ -1,0 +1,54 @@
+<!-- src/app/components/auth/login/login.html -->
+<div class="card mx-auto" style="max-width:700px;">
+  <div class="card-body">
+    <h3 class="card-title mb-3">Login</h3>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div *ngIf="errorMsg" class="alert alert-danger">{{ errorMsg }}</div>
+
+      <!-- Email -->
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input formControlName="email" type="email" class="form-control" />
+        <div class="text-danger small" *ngIf="form.get('email')?.touched && form.get('email')?.hasError('required')">
+          Email is required.
+        </div>
+        <div class="text-danger small" *ngIf="form.get('email')?.touched && form.get('email')?.hasError('email')">
+          Please enter a valid email.
+        </div>
+      </div>
+
+      <!-- Password with eye + focus hint -->
+      <div class="mb-1">
+        <label class="form-label">Password</label>
+        <div class="input-group">
+          <input
+            [type]="pwVisible ? 'text' : 'password'"
+            formControlName="password"
+            class="form-control"
+            (focus)="togglePwHint(true)"
+            (blur)="togglePwHint(false)"
+          />
+          <button type="button" class="btn btn-outline-secondary" (click)="togglePwVisibility()" aria-label="Toggle password visibility">
+            <i class="fa" [class.fa-eye]="!pwVisible" [class.fa-eye-slash]="pwVisible"></i>
+          </button>
+        </div>
+      </div>
+      <div class="text-muted small mb-3" *ngIf="showPwHint()">
+        Use your account password. (Tip: at least 8 characters with uppercase, lowercase, number, and special char.)
+      </div>
+      <div class="text-danger small" *ngIf="form.get('password')?.touched && form.get('password')?.hasError('required')">
+        Password is required.
+      </div>
+
+      <!-- Actions -->
+      <div class="d-flex align-items-center gap-3 mt-2">
+        <button class="btn btn-primary" type="submit" [disabled]="busy">Login</button>
+        <span class="text-muted">
+          New here?
+          <a routerLink="/register">Create an account</a>
+        </span>
+      </div>
+    </form>
+  </div>
+</div>

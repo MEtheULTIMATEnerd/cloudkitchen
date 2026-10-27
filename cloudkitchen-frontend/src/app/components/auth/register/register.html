@@ -1,0 +1,87 @@
+<!-- src/app/components/auth/register/register.html -->
+<div class="card mx-auto" style="max-width:700px;">
+  <div class="card-body">
+    <h3 class="card-title mb-3">Register</h3>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <!-- show only after a submit attempt -->
+      <div *ngIf="submitted && errorMsg" class="alert alert-danger">{{ errorMsg }}</div>
+
+      <!-- Email -->
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input formControlName="email" type="email" class="form-control" />
+        <div class="text-danger small" *ngIf="form.get('email')?.touched && form.get('email')?.hasError('required')">
+          Email is required.
+        </div>
+        <div class="text-danger small" *ngIf="form.get('email')?.touched && form.get('email')?.hasError('email')">
+          Please enter a valid email.
+        </div>
+      </div>
+
+      <!-- Password with eye + focus-only hint -->
+      <div class="mb-1 position-relative">
+        <label class="form-label">Password</label>
+        <div class="input-group">
+          <input
+            [type]="pwVisible ? 'text' : 'password'"
+            formControlName="password"
+            class="form-control"
+            (focus)="onPwFocus()"
+            (blur)="onPwBlur()"
+          />
+          <button type="button" class="btn btn-outline-secondary" (click)="togglePwVisibility()" aria-label="Toggle password visibility">
+            <i class="fa" [class.fa-eye]="!pwVisible" [class.fa-eye-slash]="pwVisible"></i>
+          </button>
+        </div>
+      </div>
+      <div class="text-muted small mb-2" *ngIf="shouldShowPwHint()">
+        Password must be 8+ chars and include uppercase, lowercase, number, and special character.
+      </div>
+      <div class="text-danger small" *ngIf="form.get('password')?.touched && form.get('password')?.hasError('required')">
+        Password is required.
+      </div>
+
+      <!-- Full name -->
+      <div class="mb-3">
+        <label class="form-label">Full name</label>
+        <input formControlName="fullname" class="form-control" />
+        <div class="text-danger small" *ngIf="form.get('fullname')?.touched && form.get('fullname')?.hasError('required')">
+          Full name is required.
+        </div>
+      </div>
+
+      <!-- Role -->
+      <div class="mb-3">
+        <label class="form-label">Role</label>
+        <select formControlName="role" class="form-select">
+          <option [ngValue]="null">-- select role --</option>
+          <option *ngFor="let r of roles" [ngValue]="r">{{ r | titlecase }}</option>
+        </select>
+        <div class="text-danger small" *ngIf="form.get('role')?.touched && form.get('role')?.hasError('required')">
+          Please select a role.
+        </div>
+      </div>
+
+      <!-- Phone -->
+      <div class="mb-4">
+        <label class="form-label">Phone</label>
+        <input
+          formControlName="phone"
+          class="form-control"
+          [attr.placeholder]="phonePlaceholder"
+          (focus)="onPhoneFocus()"
+          (blur)="onPhoneBlur()"
+        />
+      </div>
+
+      <div class="d-flex align-items-center gap-3">
+        <button class="btn btn-primary" type="submit" [disabled]="busy">Register</button>
+        <span class="text-muted">
+          Already have an account?
+          <a routerLink="/login">Login</a>
+        </span>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,113 @@
+<!-- src/app/components/recipes/view-recipe/view-recipe.html -->
+<div class="page">
+  <a
+    routerLink="/recipes"
+    class="btn btn-outline-primary d-inline-flex align-items-center mb-3 shadow-sm"
+    aria-label="Back to Recipes"
+  >
+    <i class="bi bi-arrow-left me-2"></i>
+    Back to Recipes
+  </a>
+
+  <h2 class="mb-3">Recipe Details</h2>
+
+  <div *ngIf="error()" class="alert alert-danger">{{ error() }}</div>
+  <div *ngIf="loading()" class="text-muted">Loading…</div>
+
+  <div *ngIf="!loading() && recipe() as r" class="row g-3">
+    <!-- Left: recipe content -->
+    <div class="col-lg-8">
+      <div class="card p-3 mb-3">
+        <h4 class="mb-1">{{ r.title }}</h4>
+        <div class="text-muted mb-3">by {{ r.chef }}</div>
+
+        <div class="row">
+          <div class="col-md-4"><strong>Meal Type:</strong> {{ r.mealType }}</div>
+          <div class="col-md-4"><strong>Cuisine:</strong> {{ r.cuisineType }}</div>
+          <div class="col-md-4"><strong>Difficulty:</strong> {{ r.difficulty }}</div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-md-4"><strong>Prep Time:</strong> {{ r.prepTime }} mins</div>
+          <div class="col-md-4"><strong>Servings:</strong> {{ r.servings }}</div>
+        </div>
+      </div>
+
+      <div class="card p-3 mb-3">
+        <h5>Ingredients</h5>
+        <ul class="mb-0">
+          <li *ngFor="let i of r.ingredients; trackBy: trackByIndex">{{ i }}</li>
+        </ul>
+      </div>
+
+      <div class="card p-3">
+        <h5>Instructions</h5>
+        <ol class="mb-0">
+          <li *ngFor="let s of r.instructions; trackBy: trackByIndex">{{ s }}</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- Right: HD Task 1 -->
+    <div class="col-lg-4">
+      <div class="card p-3 mb-3">
+        <h5 class="mb-3">HD Task 1: AI Health Analysis</h5>
+
+        <button class="btn btn-primary w-100"
+                (click)="analyzeHealth()"
+                [disabled]="analyzing()">
+          {{ analyzing() ? 'Analyzing…' : 'Analyze Health' }}
+        </button>
+
+        <div *ngIf="aiError()" class="alert alert-danger mt-3">{{ aiError() }}</div>
+      </div>
+
+      <!-- AI Analysis result -->
+      <div *ngIf="analysis() as a" class="card p-3">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h6 class="mb-0">Health Analysis</h6>
+          <span class="badge rounded-pill"
+                [ngClass]="{
+                  'text-bg-success': a.healthScore >= 75,
+                  'text-bg-warning': a.healthScore >= 50 && a.healthScore < 75,
+                  'text-bg-danger':  a.healthScore < 50
+                }">
+            Score: {{ a.healthScore }}/100
+          </span>
+        </div>
+
+        <p class="mb-2">{{ a.summary }}</p>
+
+        <div *ngIf="a.risks?.length">
+          <div class="fw-semibold mb-1">Concerns</div>
+          <ul class="small mb-2">
+            <li *ngFor="let r of a.risks; trackBy: trackByIndex">⚠️ {{ r }}</li>
+          </ul>
+        </div>
+
+        <!-- Nutrition (per serving) -->
+        <div *ngIf="analysis()?.perServing as ps" class="card p-3 mt-3">
+          <h6 class="mb-2">Nutrition (per serving)</h6>
+          <div class="row small">
+            <div class="col-6 col-md-4 mb-1"><strong>Energy:</strong> {{ ps.kcal }} kcal</div>
+            <div class="col-6 col-md-4 mb-1"><strong>Protein:</strong> {{ ps.protein }} g</div>
+            <div class="col-6 col-md-4 mb-1"><strong>Carbs:</strong> {{ ps.carbs }} g</div>
+            <div class="col-6 col-md-4 mb-1"><strong>Fat:</strong> {{ ps.fat }} g</div>
+            <div class="col-6 col-md-4 mb-1"><strong>Sat. Fat:</strong> {{ ps.satFat }} g</div>
+            <div class="col-6 col-md-4 mb-1"><strong>Fiber:</strong> {{ ps.fiber }} g</div>
+            <div class="col-6 col-md-4 mb-1"><strong>Sodium:</strong> {{ ps.sodiumMg }} mg</div>
+            <div class="col-6 col-md-4 mb-1" *ngIf="analysis()?.servings">
+              <strong>Servings:</strong> {{ analysis()?.servings }}
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="a.suggestions?.length">
+          <div class="fw-semibold mb-1">Suggestions</div>
+          <ul class="small mb-0">
+            <li *ngFor="let s of a.suggestions; trackBy: trackByIndex">💡 {{ s }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

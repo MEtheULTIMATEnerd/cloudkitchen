@@ -1,0 +1,127 @@
+<div class="container-lg py-3">
+<!-- src/app/components/dashboard/dashboard.html -->
+
+<!-- Top header: logo centered + student info -->
+<div class="text-center my-3">
+  <img
+    [src]="logoPath"
+    alt="Recipe Hub Logo"
+    style="height:70px;width:auto;object-fit:contain"
+  />
+  <div class="mt-2">
+    <div class="fw-semibold">{{ studentName }}</div>
+    <div class="text-muted small">Student ID: {{ studentId }}</div>
+  </div>
+</div>
+
+<!-- Error / loading -->
+<div *ngIf="error" class="alert alert-danger" role="alert" aria-live="assertive">
+  {{ error }}
+</div>
+<div *ngIf="loading && !error" class="alert alert-info py-2" role="status" aria-live="polite">
+  Updating dashboard…
+</div>
+
+<!-- Logged-in welcome -->
+<div *ngIf="user" class="alert alert-success d-flex flex-column gap-1">
+  <div class="fw-semibold mb-1">
+    Welcome, {{ displayName }}!
+  </div>
+  <div class="small text-muted" *ngIf="user.role">Role: {{ user.role | titlecase }}</div>
+  <div class="small text-muted" *ngIf="user.email">Email: {{ user.email }}</div>
+</div>
+
+<!-- Controls -->
+<div class="d-flex justify-content-end mb-3 gap-2">
+  <button class="btn btn-outline-secondary btn-sm" (click)="triggerRefresh()" [disabled]="loading">
+    Refresh
+  </button>
+</div>
+
+<!-- Stats grid -->
+<section class="mb-4">
+  <h5 class="mb-3">Your Recipe Hub at a Glance</h5>
+  <div class="row g-3 row-cols-1 row-cols-sm-2 row-cols-lg-5">
+    <div class="col">
+      <div class="card h-100 text-bg-secondary">
+        <div class="card-body">
+          <div class="card-title fw-semibold">Total Users</div>
+          <div class="fs-3">{{ totalUsers ?? '—' }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card h-100 text-bg-primary">
+        <div class="card-body">
+          <div class="card-title fw-semibold">Total Recipes</div>
+          <div class="fs-3">{{ totalRecipes ?? 0 }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card h-100 text-bg-success">
+        <div class="card-body">
+          <div class="card-title fw-semibold">Inventory Items</div>
+          <div class="fs-3">{{ totalInventory ?? 0 }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card h-100 text-bg-warning">
+        <div class="card-body">
+          <div class="card-title fw-semibold">Cuisine Types</div>
+          <div class="fs-3">{{ cuisineTypes ?? 0 }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card h-100 text-bg-danger">
+        <div class="card-body">
+          <div class="card-title fw-semibold">Inventory Value</div>
+          <div class="fs-3">{{ (totalValue ?? 0) | currency:'USD':'symbol':'1.0-2' }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Quick actions -->
+<section class="mb-4">
+  <h5 class="mb-3">Quick Actions</h5>
+  <div class="row g-3">
+    <div class="col-12 col-lg-4">
+      <div class="card h-100">
+        <div class="card-header">Recipe Actions</div>
+        <div class="card-body d-flex flex-column gap-2">
+          <a routerLink="/recipes/add" class="btn btn-primary">➕ Add New Recipe</a>
+          <a routerLink="/recipes" class="btn btn-success">📖 View All Recipes</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-4">
+      <div class="card h-100">
+        <div class="card-header">Inventory Actions</div>
+        <div class="card-body d-flex flex-column gap-2">
+          <a routerLink="/inventory/add" class="btn btn-primary">➕ Add Inventory Item</a>
+          <a routerLink="/inventory" class="btn btn-success">📦 View Inventory</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-4">
+      <div class="card h-100">
+        <div class="card-header">Other</div>
+        <div class="card-body d-flex flex-column gap-2">
+          <button type="button" class="btn btn-outline-secondary" (click)="triggerRefresh()" [disabled]="loading">↻ Refresh Stats</button>
+          <!-- Add future links here -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>

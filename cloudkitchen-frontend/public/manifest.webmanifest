@@ -1,0 +1,22 @@
+{
+  "name": "Recipe Hub",
+  "short_name": "RecipeHub",
+  "description": "A modern recipe and inventory management system for CloudKitchen.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#111827",
+  "theme_color": "#111827",
+  "icons": [
+    {
+      "src": "icons/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/logo_2.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

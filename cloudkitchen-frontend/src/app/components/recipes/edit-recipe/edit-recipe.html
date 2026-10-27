@@ -1,0 +1,74 @@
+<div class="page">
+  <a routerLink="/recipes"
+     class="btn btn-outline-primary d-inline-flex align-items-center mb-3 shadow-sm">
+    <i class="bi bi-arrow-left me-2"></i> Back to Recipes
+  </a>
+  <h2 class="mb-3">Edit Recipe</h2>
+  <div *ngIf="error()" class="alert alert-danger">{{ error() }}</div>
+  <div *ngIf="loading()" class="text-muted">Loading…</div>
+
+  <form *ngIf="!loading()" [formGroup]="form" (ngSubmit)="save()" class="card p-3">
+    <div class="row">
+      <div class="col-md-8 mb-3">
+        <label class="form-label">Title</label>
+        <input class="form-control" formControlName="title" [class.is-invalid]="isInvalid('title')">
+      </div>
+      <div class="col-md-4 mb-3">
+        <label class="form-label">Chef</label>
+        <input class="form-control" formControlName="chef" [class.is-invalid]="isInvalid('chef')">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Ingredients</label>
+        <textarea class="form-control" rows="6" formControlName="ingredients" [class.is-invalid]="isInvalid('ingredients')"></textarea>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Instructions</label>
+        <textarea class="form-control" rows="6" formControlName="instructions" [class.is-invalid]="isInvalid('instructions')"></textarea>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3 mb-3">
+        <label class="form-label">Meal Type</label>
+        <select class="form-select" formControlName="mealType" [class.is-invalid]="isInvalid('mealType')">
+          <option [ngValue]="null" disabled>-- select --</option>
+          <option *ngFor="let m of mealTypes" [ngValue]="m">{{ m }}</option>
+        </select>
+      </div>
+
+      <div class="col-md-3 mb-3">
+        <label class="form-label">Cuisine Type</label>
+        <select class="form-select" formControlName="cuisineType" [class.is-invalid]="isInvalid('cuisineType')">
+          <option [ngValue]="null" disabled>-- select --</option>
+          <option *ngFor="let c of cuisineTypes" [ngValue]="c">{{ c }}</option>
+        </select>
+      </div>
+
+      <div class="col-md-2 mb-3">
+        <label class="form-label">Prep Time</label>
+        <input type="number" class="form-control" formControlName="prepTime" [class.is-invalid]="isInvalid('prepTime')">
+      </div>
+
+      <div class="col-md-2 mb-3">
+        <label class="form-label">Difficulty</label>
+        <select class="form-select" formControlName="difficulty" [class.is-invalid]="isInvalid('difficulty')">
+          <option [ngValue]="null" disabled>-- select --</option>
+          <option *ngFor="let d of difficulties" [ngValue]="d">{{ d }}</option>
+        </select>
+      </div>
+
+      <div class="col-md-2 mb-3">
+        <label class="form-label">Servings</label>
+        <input type="number" class="form-control" formControlName="servings" [class.is-invalid]="isInvalid('servings')">
+      </div>
+    </div>
+
+    <div class="d-flex gap-2">
+      <button class="btn btn-primary" type="submit">Save Changes</button>
+      <a class="btn btn-outline-secondary" routerLink="/recipes">Cancel</a>
+    </div>
+  </form>
+</div>

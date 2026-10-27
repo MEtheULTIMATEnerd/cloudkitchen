@@ -1,0 +1,27 @@
+<div class="page">
+  <a routerLink="/inventory" class="btn btn-outline-primary d-inline-flex align-items-center mb-3 shadow-sm">
+    <i class="bi bi-arrow-left me-2"></i> Back to Inventory
+  </a>
+  <h2 class="mb-3">Inventory Item</h2>
+
+  <div *ngIf="error()" class="alert alert-danger">{{ error() }}</div>
+
+  <ng-template #loadingTpl>
+    <div class="text-muted">Loading…</div>
+  </ng-template>
+
+  <!-- Alias the signal value as 'it' for the template -->
+  <div *ngIf="item() as it; else loadingTpl">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{ it.ingredientName || 'Item' }}</h5>
+        <p class="mb-1"><strong>Quantity:</strong> {{ it.quantity }} {{ it.unit }}</p>
+        <p class="mb-1"><strong>Category:</strong> {{ it.category }}</p>
+        <p class="mb-1"><strong>Location:</strong> {{ it.location }}</p>
+        <p class="mb-1"><strong>Cost:</strong> {{ it.cost }}</p>
+        <p class="mb-1"><strong>Purchased:</strong> {{ it.purchaseDate | date:'yyyy-MM-dd' }}</p>
+        <p class="mb-1"><strong>Expires:</strong> {{ it.expirationDate | date:'yyyy-MM-dd' }}</p>
+      </div>
+    </div>
+  </div>
+</div>

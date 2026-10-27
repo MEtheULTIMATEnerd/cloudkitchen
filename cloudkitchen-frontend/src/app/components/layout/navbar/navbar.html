@@ -1,0 +1,83 @@
+<!-- src/app/components/layout/navbar/navbar.html -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 shadow-sm">
+  <div class="container">
+    <!-- Brand -->
+    <a class="navbar-brand d-flex align-items-center" routerLink="/dashboard">
+      <img src="img/logo.png" alt="Recipe Hub" class="me-2" style="height:28px;width:auto" />
+      <span>Recipe Hub</span>
+    </a>
+
+    <!-- Mobile toggle -->
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#mainNavbar"
+      aria-controls="mainNavbar"
+      aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar content -->
+    <div class="collapse navbar-collapse" id="mainNavbar">
+      <!-- Left links -->
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a routerLink="/dashboard" routerLinkActive="active" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/recipes" routerLinkActive="active" class="nav-link">Recipes</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/inventory" routerLinkActive="active" class="nav-link">Inventory</a>
+        </li>
+      </ul>
+
+      <!-- Right: Auth / User -->
+      <ul class="navbar-nav ms-auto">
+        <!-- When not logged in -->
+        <ng-container *ngIf="!isLoggedIn; else loggedInTpl">
+          <li class="nav-item">
+            <a routerLink="/login" class="nav-link">Login</a>
+          </li>
+          <li class="nav-item">
+            <a routerLink="/register" class="nav-link">Register</a>
+          </li>
+        </ng-container>
+
+        <!-- When logged in -->
+        <ng-template #loggedInTpl>
+          <li class="nav-item dropdown" [class.show]="menuOpen()">
+            <!-- Use a button (no reload); Angular toggles .show -->
+            <button
+              type="button"
+              class="btn btn-link nav-link dropdown-toggle text-decoration-none d-flex align-items-center"
+              aria-expanded="{{ menuOpen() }}"
+              (click)="toggleMenu($event)">
+              <span
+                class="me-2 rounded-circle bg-light text-dark d-inline-flex justify-content-center align-items-center fw-semibold"
+                style="width:28px;height:28px;">
+                {{ firstInitial(user) }}
+              </span>
+              {{ displayName(user) }}
+            </button>
+
+            <!-- Menu -->
+            <ul
+              class="dropdown-menu dropdown-menu-end shadow-sm"
+              [class.show]="menuOpen()"
+              [ngStyle]="menuOpen() ? {'display':'block'} : null"
+              (click)="stop($event)">
+              <li><a class="dropdown-item" routerLink="/dashboard">Dashboard</a></li>
+              <li><a class="dropdown-item" routerLink="/recipes">Recipes</a></li>
+              <li><a class="dropdown-item" routerLink="/inventory">Inventory</a></li>
+              <li><hr class="dropdown-divider" /></li>
+              <li><a class="dropdown-item text-danger" (click)="logout($event)">Logout</a></li>
+            </ul>
+          </li>
+        </ng-template>
+      </ul>
+    </div>
+  </div>
+</nav>

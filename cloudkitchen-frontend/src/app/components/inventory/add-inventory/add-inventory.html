@@ -1,0 +1,78 @@
+<div class="page">
+  <a routerLink="/inventory" class="btn btn-outline-primary d-inline-flex align-items-center mb-3 shadow-sm">
+    <i class="bi bi-arrow-left me-2"></i> Back to Inventory
+  </a>
+  <h2 class="mb-3">Add Inventory Item</h2>
+
+  <div *ngIf="errorMsg" class="alert alert-danger">{{ errorMsg }}</div>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="card p-3">
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label">Name</label>
+        <input class="form-control"
+               formControlName="ingredientName"
+               [class.is-invalid]="isInvalid('ingredientName')">
+        <div class="invalid-feedback">2–100 characters.</div>
+      </div>
+
+      <!-- Single Quantity field that includes the unit -->
+      <div class="col-md-3">
+        <label class="form-label">Quantity</label>
+        <input class="form-control"
+               formControlName="quantityWithUnit"
+               placeholder="e.g., 2 kg, 500 ml, 12 pcs"
+               [class.is-invalid]="isInvalid('quantityWithUnit')">
+        <div class="invalid-feedback">Enter like “2 kg”, “500 ml”, or “12 pcs”.</div>
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label">Cost ($)</label>
+        <input type="number" min="0" step="0.01" class="form-control"
+               formControlName="cost" [class.is-invalid]="isInvalid('cost')">
+        <div class="invalid-feedback">Must be ≥ 0.</div>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label">Category</label>
+        <input class="form-control"
+               formControlName="category"
+               placeholder="e.g., Produce, Fruit, Meat, Dairy, Frozen"
+               [class.is-invalid]="isInvalid('category')">
+        <div class="invalid-feedback">Category is required.</div>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label">Location</label>
+        <input class="form-control"
+               formControlName="location"
+               placeholder="e.g., Fridge, Freezer, Pantry, Counter, Cupboard"
+               [class.is-invalid]="isInvalid('location')">
+        <div class="invalid-feedback">Location is required.</div>
+      </div>
+
+      <div class="col-md-2">
+        <label class="form-label">Purchase Date</label>
+        <input type="date"
+               class="form-control"
+               formControlName="purchaseDate"
+               [class.is-invalid]="isInvalid('purchaseDate')">
+        <div class="invalid-feedback">Required.</div>
+      </div>
+
+      <div class="col-md-2">
+        <label class="form-label">Expiry Date</label>
+        <input type="date"
+               class="form-control"
+               formControlName="expirationDate"
+               [class.is-invalid]="isInvalid('expirationDate')">
+        <div class="invalid-feedback">Required.</div>
+      </div>
+    </div>
+
+    <div class="mt-3 d-flex gap-2">
+      <button class="btn btn-primary" type="submit" [disabled]="submitting">Create</button>
+      <a class="btn btn-outline-secondary" routerLink="/inventory">Cancel</a>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,81 @@
+<div class="page">
+  <a routerLink="/recipes"
+     class="btn btn-outline-primary d-inline-flex align-items-center mb-3 shadow-sm">
+    <i class="bi bi-arrow-left me-2"></i> Back to Recipes
+  </a>
+  <h2 class="mb-3">Add New Recipe</h2>
+
+  <div *ngIf="errorMsg" class="alert alert-danger">{{ errorMsg }}</div>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="card p-3">
+    <div class="mb-3">
+      <label class="form-label">Title</label>
+      <input class="form-control" formControlName="title" [class.is-invalid]="isInvalid('title')">
+      <div class="invalid-feedback">Title is required (3–100 characters).</div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Chef</label>
+      <input class="form-control" formControlName="chef" [class.is-invalid]="isInvalid('chef')" placeholder="Your full name">
+      <div class="invalid-feedback">Enter 2–50 letters (spaces, hyphens, apostrophes allowed).</div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Ingredients (one per line)</label>
+      <textarea rows="5" class="form-control" formControlName="ingredientsText" [class.is-invalid]="isInvalid('ingredientsText')"></textarea>
+      <div class="invalid-feedback">Please add at least one ingredient.</div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Instructions (one step per line)</label>
+      <textarea rows="6" class="form-control" formControlName="instructionsText" [class.is-invalid]="isInvalid('instructionsText')"></textarea>
+      <div class="invalid-feedback">Please add at least one instruction step.</div>
+    </div>
+
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label">Meal Type</label>
+        <select class="form-select" formControlName="mealType" [class.is-invalid]="isInvalid('mealType')">
+          <option [ngValue]="null" disabled>-- select --</option>
+          <option *ngFor="let m of mealTypes" [ngValue]="m">{{ m }}</option>
+        </select>
+        <div class="invalid-feedback">Please select a meal type.</div>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Cuisine Type</label>
+        <select class="form-select" formControlName="cuisineType" [class.is-invalid]="isInvalid('cuisineType')">
+          <option [ngValue]="null" disabled>-- select --</option>
+          <option *ngFor="let c of cuisineTypes" [ngValue]="c">{{ c }}</option>
+        </select>
+        <div class="invalid-feedback">Please select a cuisine type.</div>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label">Prep Time (min)</label>
+        <input type="number" class="form-control" formControlName="prepTime" min="1" max="480" [class.is-invalid]="isInvalid('prepTime')">
+        <div class="invalid-feedback">Enter a value between 1 and 480.</div>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label">Difficulty</label>
+        <select class="form-select" formControlName="difficulty" [class.is-invalid]="isInvalid('difficulty')">
+          <option [ngValue]="null" disabled>-- select --</option>
+          <option *ngFor="let d of difficulties" [ngValue]="d">{{ d }}</option>
+        </select>
+        <div class="invalid-feedback">Please select a difficulty.</div>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label">Servings</label>
+        <input type="number" class="form-control" formControlName="servings" min="1" max="20" [class.is-invalid]="isInvalid('servings')">
+        <div class="invalid-feedback">Enter a value between 1 and 20.</div>
+      </div>
+    </div>
+
+    <div class="mt-3 d-flex gap-2">
+      <button class="btn btn-primary" type="submit" [disabled]="submitting">Create</button>
+      <a class="btn btn-outline-secondary" routerLink="/recipes">Cancel</a>
+    </div>
+  </form>
+</div>

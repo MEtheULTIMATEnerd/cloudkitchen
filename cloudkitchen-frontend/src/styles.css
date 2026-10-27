@@ -1,0 +1,239 @@
+/* ===============================
+   A2-inspired theme (cream) + sticky layout for Angular
+   =============================== */
+
+/* Full-height viewport */
+html, body { height: 100%; }
+
+/* Global body styles (A2 look & feel) */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9f5e7; /* A2 cream */
+  color: #2c3e50;            /* deep slate text */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.input-group .form-control.border-start-0 {
+  border-left: 0 !important;
+}
+.input-group .input-group-text.border-end-0 {
+  border-right: 0 !important;
+}
+.card.border-danger { border-width: 2px !important; }
+.card.border-warning { border-width: 2px !important; }
+
+.page {
+  max-width: 1100px;     /* same feel as the dashboard */
+  margin: 24px auto;     /* center horizontally, add breathing room */
+  padding: 0 16px;       /* small side padding for mobile */
+}
+
+.section-card {
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  padding: 16px;
+}
+
+/* Optional: consistent page title sizing */
+.h-page {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+}
+
+
+/* ===============================
+   App Layout (wrapper / main / footer)
+   =============================== */
+.app-wrapper {
+  min-height: 100vh;          /* fill the viewport */
+  display: flex;
+  flex-direction: column;
+}
+
+.app-main {
+  flex: 1 0 auto;             /* take remaining space */
+  display: block;             /* ensure consistency */
+}
+
+/* Sticky footer – same tone as navbar */
+.app-footer {
+  background-color: #2c3e50 !important;
+  color: #f9f5e7 !important;
+  width: 100%;
+  border-radius: 0;
+  margin: 0 !important;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border: none !important;
+  box-shadow: none !important;
+  background-image: none !important;
+  position: relative;
+  z-index: 2;
+}
+
+/* Kill inherited container cream styles */
+.app-footer .container {
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+/* Typography and links */
+.app-footer h6 {
+  color: #f9f5e7;
+  font-weight: 600;
+}
+
+.app-footer a {
+  color: #f9f5e7 !important;
+  text-decoration: none;
+}
+.app-footer a:hover {
+  color: #f39c12 !important;
+}
+
+/* ===============================
+   Header and Navbar
+   =============================== */
+.navbar {
+  background-color: #2c3e50 !important; /* A2 navbar */
+  color: #f9f5e7;
+  padding: 0.75rem 1rem;
+}
+.navbar .navbar-brand {
+  color: #f39c12 !important;  /* A2 brand accent */
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+.navbar .nav-link {
+  color: #f9f5e7 !important;  /* readable on dark bg */
+  font-weight: 500;
+  transition: color 0.2s ease-in-out;
+}
+.navbar .nav-link:hover {
+  color: #f39c12 !important;  /* hover accent */
+}
+
+/* ===============================
+   Hero Section (Homepage banner)
+   =============================== */
+.hero {
+  background-color: #f9f5e7;
+  color: #2c3e50;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+.hero h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+.hero p {
+  font-size: 1.25rem;
+  margin-bottom: 0;
+}
+
+/* ===============================
+   Optional soft container (white card on cream)
+   - Use by adding class="container-soft" to a wrapper
+   =============================== */
+.container-soft {
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  padding: 1.25rem;
+}
+
+/* ===============================
+   Forms
+   =============================== */
+form label { font-weight: 600; }
+form .form-control,
+form .form-select,
+form textarea {
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+form button {
+  background-color: #ff6f61;
+  border: none;
+}
+form button:hover {
+  background-color: #ff3b2e;
+}
+
+/* ===============================
+   Tables
+   =============================== */
+table { width: 100%; border-collapse: collapse; }
+table th, table td { padding: 0.75rem; text-align: left; }
+table th {
+  background-color: #f9f5e7;
+  color: #2c3e50;
+  font-weight: 600;
+}
+table tbody tr:nth-child(even) { background-color: #f9f9f9; }
+table tbody tr.table-danger { background-color: #ffd6d6 !important; }
+table tbody tr.table-warning { background-color: #fff4d6 !important; }
+
+/* ===============================
+   Buttons
+   =============================== */
+.btn-primary {
+  background-color: #ff6f61;
+  border-color: #ff6f61;
+  color: #2c3e50;
+}
+.btn-primary:hover {
+  background-color: #ff3b2e;
+  border-color: #ff3b2e;
+  color: #2c3e50;
+}
+
+/* Fix text color for success & warning buttons */
+.btn-success, .btn-warning { color: #2c3e50 !important; }
+.btn-success:hover, .btn-warning:hover { color: #2c3e50 !important; }
+
+/* Outline button styles for HD Tasks */
+.btn-outline-primary,
+.btn-outline-success,
+.btn-outline-warning,
+.btn-outline-info {
+  color: #2c3e50 !important;
+  border-width: 2px;
+  font-weight: 500;
+}
+.btn-outline-primary:hover,
+.btn-outline-success:hover,
+.btn-outline-warning:hover,
+.btn-outline-info:hover {
+  color: #2c3e50 !important;
+}
+
+/* ===============================
+   Progress Bars
+   =============================== */
+.progress-bar { width: var(--progress); }
+
+/* ===============================
+   Cards
+   =============================== */
+.card { color: #2c3e50 !important; }
+
+/* ===============================
+   Alerts
+   =============================== */
+.alert { border-radius: 6px; }
+
+/* ===============================
+   Utilities
+   =============================== */
+.section { margin: 1rem 0 2rem; }
+
+/* If using a fixed-top navbar, keep content from hiding under it */
+.body-offset-top { padding-top: 70px; }
