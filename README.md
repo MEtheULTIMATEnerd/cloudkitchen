@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # CloudKitchen
 
 CloudKitchen is a FIT2095 Full-Stack Development coursework project for managing kitchen recipes and inventory. This portfolio copy keeps the Angular + Express + MongoDB scope while adding a repeatable demo workflow and safer defaults.
@@ -55,3 +56,6 @@ The original assignment may include starter code, university-specific requiremen
 - Added synthetic demo seeding, `/api/health`, request-size limits and JSON API errors.
 - Protected inventory mutations and prevented public admin self-registration.
 - Preserved the original project folder and Git history outside this cleaned copy.
+=======
+# cloudkitchen
+>>>>>>> 6b8fe5654a75b542d204704eec7ef4135817607a
