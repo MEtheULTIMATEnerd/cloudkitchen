@@ -60,8 +60,8 @@ app.set("view engine", "ejs");
 app.set("views", VIEWS);
 
 // --- middleware ---
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(express.urlencoded({ extended: true, limit: '100kb' }));
+app.use(express.json({ limit: '100kb' }));
 app.use(express.static(path.join(__dirname, "public")));
 
 // Simple session middleware required by auth routes
@@ -158,6 +158,10 @@ app.get("/error", (req, res) =>
     session: req.session || {}
   })
 );
+
+app.get('/api/health', (_req, res) => {
+  res.json({ ok: true, service: 'cloudkitchen-api', ai: Boolean(process.env.OPENAI_API_KEY) ? 'openai-or-local-fallback' : 'local-fallback' });
+});
 
 // 404 fallback
 app.use((req, res) => {

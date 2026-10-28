@@ -8,7 +8,8 @@
     "be": "npm run start:dev",
     "fe": "npm --prefix cloudkitchen-frontend run start",
     "dev": "concurrently -k -n BE,FE -c yellow,cyan \"npm:be\" \"npm:fe\"",
-    "test": "node --test test/*.test.js"
+    "test": "node --test test/*.test.js",
+    "seed:demo": "node scripts/seed-demo.js"
   },
   "dependencies": {
     "@google-cloud/text-to-speech": "^6.3.1",

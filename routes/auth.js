@@ -38,7 +38,8 @@ function verifyPassword(plain, stored) {
 function isLegacyHashFormat(str) {
   return typeof str === 'string' && str.startsWith('$2');
 }
-const ALLOWED_ROLES = ['admin', 'chef', 'manager', 'user'];
+// Admin accounts are provisioned by an operator; public registration cannot self-assign admin.
+const ALLOWED_ROLES = ['chef', 'manager', 'user'];
 
 // Keep these in sync with frontend & User.js
 const FULLNAME_RE = /^[A-Za-z\s'\-]+$/;

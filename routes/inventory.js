@@ -2,6 +2,7 @@
 const express = require('express');
 const InventoryItem = require('../models/Inventory');
 const { validateInventory } = require('../middleware/validators');
+const { ensureLoggedIn, requireRole, ownerOrAdmin } = require('../middleware/auth');
 
 module.exports = (ID_SUFFIX) => {
   const router = express.Router();
@@ -46,7 +47,7 @@ module.exports = (ID_SUFFIX) => {
   });
 
   // Create
-  router.post(`/api/inventory/add-${ID_SUFFIX}`, validateInventory, async (req, res) => {
+  router.post(`/api/inventory/add-${ID_SUFFIX}`, ensureLoggedIn, requireRole('chef', 'manager', 'admin'), validateInventory, async (req, res) => {
     try {
       const {
         ingredientName, quantity, unit, category,
@@ -88,7 +89,7 @@ module.exports = (ID_SUFFIX) => {
   });
 
   // Update
-  router.post(`/api/inventory/update-${ID_SUFFIX}`, validateInventory, async (req, res) => {
+  router.post(`/api/inventory/update-${ID_SUFFIX}`, ensureLoggedIn, requireRole('chef', 'manager', 'admin'), validateInventory, async (req, res) => {
     try {
       const {
         inventoryId, ingredientName, quantity, unit, category,
@@ -148,8 +149,8 @@ module.exports = (ID_SUFFIX) => {
     }
   }
 
-  router.post(`/api/inventory/delete-${ID_SUFFIX}`, deleteHandler);
-  router.post(`/api/inventory/delete-multiple-${ID_SUFFIX}`, deleteHandler);
+  router.post(`/api/inventory/delete-${ID_SUFFIX}`, ensureLoggedIn, requireRole('chef', 'manager', 'admin'), deleteHandler);
+  router.post(`/api/inventory/delete-multiple-${ID_SUFFIX}`, ensureLoggedIn, requireRole('chef', 'manager', 'admin'), deleteHandler);
 
   return router;
 };

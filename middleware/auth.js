@@ -20,6 +20,9 @@ async function loadCurrentUser(req, res, next) {
 
 function ensureLoggedIn(req, res, next) {
   if (req.user && req.user.userId) return next();
+  if (req.path.startsWith('/api/')) {
+    return res.status(401).json({ ok: false, message: 'Authentication required.' });
+  }
   return res.status(401).render('error', {
     message: 'You must be logged in to access that page.',
     title: 'Error',
@@ -32,6 +35,9 @@ function requireRole(...roles) {
   return (req, res, next) => {
     const userRole = (req.user && req.user.role) ? req.user.role : null;
     if (userRole && roles.includes(userRole)) return next();
+    if (req.path.startsWith('/api/')) {
+      return res.status(403).json({ ok: false, message: 'You do not have permission to access that resource.' });
+    }
     return res.status(403).render('error', { message: 'You do not have permission to access that page.', title: 'Forbidden', studentId: res.locals.studentId, session: req.session || {} });
   };
 }

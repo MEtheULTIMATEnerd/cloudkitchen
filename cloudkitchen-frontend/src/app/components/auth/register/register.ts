@@ -26,7 +26,7 @@ export class RegisterComponent implements OnInit {
   private auth = inject(AuthService);
   private router = inject(Router);
 
-  roles: UserRole[] = ['admin', 'chef', 'manager', 'user'];
+  roles: UserRole[] = ['chef', 'manager', 'user'];
 
   // UI state
   pwVisible = false;
@@ -51,7 +51,7 @@ export class RegisterComponent implements OnInit {
     password: ['', [this.strongPassword()]],
     fullname: ['', [Validators.required]],
     role: [null as UserRole | null, [Validators.required]],
-    phone: ['']
+    phone: ['', [Validators.required, Validators.pattern(/^(\+614\d{8}|04\d{8})$/)]]
   });
 
   ngOnInit(): void {
@@ -113,6 +113,7 @@ export class RegisterComponent implements OnInit {
     const pw    = this.form.get('password');
     const name  = this.form.get('fullname');
     const role  = this.form.get('role');
+    const phone = this.form.get('phone');
 
     if (email?.hasError('required')) return 'Email is required.';
     if (email?.hasError('email'))    return 'Please enter a valid email address.';
@@ -120,6 +121,8 @@ export class RegisterComponent implements OnInit {
     if (pw?.hasError('weak'))        return 'Password must be 8+ chars and include uppercase, lowercase, number, and special character.';
     if (name?.hasError('required'))  return 'Full name is required.';
     if (role?.hasError('required'))  return 'Please select a role.';
+    if (phone?.hasError('required')) return 'Phone number is required.';
+    if (phone?.hasError('pattern')) return 'Use an Australian mobile number such as 0400000000.';
     return 'Please fix highlighted errors before submitting.';
   }
 }
